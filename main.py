@@ -1,9 +1,10 @@
 # main.py
 #boots ap and hands control over to Kivy
-
+# main.py
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from screens.timer_screen import TimerScreen
+from database.__db_manager import initialise_db
 
 
 class ADHDTrackerApp(MDApp):
@@ -13,10 +14,11 @@ class ADHDTrackerApp(MDApp):
         # Return an instance of TimerScreen as the temporary root widget
         return TimerScreen()
 
+    def on_start(self):
+        # Ensure the 'sessions' table exists before the app becomes interactive.
+        # Safe to call every launch — CREATE TABLE IF NOT EXISTS is idempotent.
+        initialise_db()
+
 
 if __name__ == "__main__":
     ADHDTrackerApp().run()
-
-# Right now build() returns just the timer screen directly. 
-# Once we add navigation in a later commit,
-#  this will return a ScreenManager instead. clea
