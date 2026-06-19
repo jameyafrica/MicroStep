@@ -1,11 +1,74 @@
-#must reference the exact class from our Python file
 # kv/timer_screen.kv
-#:import TimerScreen screens.timer_screen
 
 <TimerScreen>:
     name: "timer"
 
-    MDLabel:
-        text: "Focus Timer — coming soon"
-        halign: "center"
-        theme_text_color: "Primary"
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "32dp"
+        spacing: "24dp"
+
+        # ── Header ──────────────────────────────────────────────────
+        MDLabel:
+            text: "MicroStep"
+            halign: "center"
+            font_style: "H5"
+            size_hint_y: None
+            height: self.texture_size[1]
+            theme_text_color: "Primary"
+
+        # ── Clock face ──────────────────────────────────────────────
+        MDLabel:
+            text: root.time_display
+            halign: "center"
+            font_style: "H1"
+            size_hint_y: 0.4
+            theme_text_color: "Primary"
+
+        # ── Status text ─────────────────────────────────────────────
+        MDLabel:
+            text: root.status_text
+            halign: "center"
+            font_style: "Subtitle1"
+            size_hint_y: None
+            height: self.texture_size[1]
+            theme_text_color: "Secondary"
+
+        # ── Buttons ─────────────────────────────────────────────────
+        MDBoxLayout:
+            orientation: "horizontal"
+            spacing: "16dp"
+            size_hint_y: None
+            height: "56dp"
+
+            # Start — visible in IDLE only
+            MDRaisedButton:
+                text: "Start"
+                on_release: root.start()
+                opacity: 1 if root.state == "idle" else 0
+                disabled: root.state != "idle"
+                size_hint_x: 1
+
+            # Pause — visible in RUNNING only
+            MDRaisedButton:
+                text: "Pause"
+                on_release: root.pause()
+                opacity: 1 if root.state == "running" else 0
+                disabled: root.state != "running"
+                size_hint_x: 1
+
+            # Resume — visible in PAUSED only
+            MDRaisedButton:
+                text: "Resume"
+                on_release: root.resume()
+                opacity: 1 if root.state == "paused" else 0
+                disabled: root.state != "paused"
+                size_hint_x: 1
+
+            # Reset — visible in PAUSED or COMPLETED
+            MDRaisedButton:
+                text: "Reset"
+                on_release: root.reset()
+                opacity: 1 if root.state in ("paused", "completed") else 0
+                disabled: root.state not in ("paused", "completed")
+                size_hint_x: 1

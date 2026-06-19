@@ -39,12 +39,41 @@ class TimerScreen(MDScreen):
     state = StringProperty(TimerState.IDLE.value)
     remaining_seconds = NumericProperty(DEFAULT_DURATION_SECONDS)
     total_seconds = NumericProperty(DEFAULT_DURATION_SECONDS)
+    time_display = StringProperty("25:00")
+    status_text = StringProperty("Ready")
 
     def __init__(self, **kwargs):
+        
         super().__init__(**kwargs)
         # Handle to the scheduled Clock event, so we can cancel it on
         # pause/reset instead of letting multiple tickers stack up.
         self._clock_event = None
+
+
+    def on_remaining_seconds(self, instance, value):
+        """
+        Called automatically by Kivy whenever remaining_seconds changes.
+        Converts the raw second count to a MM:SS string for the UI to display.
+        """
+        minutes = int(value) // 60
+        seconds = int(value) % 60
+        self.time_display = f"{minutes:02d}:{seconds:02d}"
+
+
+    def on_state(self, instance, value):
+        """
+        Called automatically by Kivy whenever state changes.
+        Converts the state string to a human-readable status label.
+        """
+        labels = {
+            "idle": "Ready",
+            "running": "Focus!",
+            "paused": "Paused",
+            "completed": "Done!",
+        }
+        self.status_text = labels.get(value, "")    
+
+        
 
     # ------------------------------------------------------------------
     # Internal helpers
