@@ -4,7 +4,7 @@ Data access layer.
 All SQL queries are defined here — screens never write raw SQL.
 """
 
-from database.__db_manager import get_connection
+from database.db_manager import get_connection
 
 
 def log_session(start_time, duration_seconds, completed):
