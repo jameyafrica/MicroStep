@@ -12,6 +12,8 @@ from enum import Enum
 from kivy.clock import Clock
 from kivy.properties import StringProperty, NumericProperty
 from kivymd.uix.screen import MDScreen
+from datetime import datetime
+from database.models import log_session
 
 
 class TimerState(Enum):
@@ -114,6 +116,7 @@ class TimerScreen(MDScreen):
     def start(self):
         """IDLE -> RUNNING. Begins a fresh countdown from total_seconds."""
         self._require_state(TimerState.IDLE)
+        self._start_time = datetime.utcnow().isoformat()
         self.remaining_seconds = self.total_seconds
         self._set_state(TimerState.RUNNING)
         self._start_ticking()
@@ -172,9 +175,6 @@ class TimerScreen(MDScreen):
             self._complete()
 
     def _complete(self):
-        """RUNNING -> COMPLETED. Countdown reached zero naturally."""
         self._stop_ticking()
         self._set_state(TimerState.COMPLETED)
-        # NOTE: log_session() integration happens in Commit 9.
-        # Deliberately not wired in yet -- keeping this commit
-        # focused on the state machine only.
+        log_session(self._start_time, self.total_seconds, completed=1)
