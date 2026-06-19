@@ -1,10 +1,8 @@
 # main.py
-#boots ap and hands control over to Kivy
-# main.py
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from screens.timer_screen import TimerScreen
-from database.__db_manager import initialise_db
+from database.db_manager import initialise_db
 
 
 class ADHDTrackerApp(MDApp):
