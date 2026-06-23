@@ -145,6 +145,13 @@ class TimerScreen(MDScreen):
         self.remaining_seconds = self.total_seconds
         self._set_state(TimerState.IDLE)
 
+
+    def set_duration(self, minutes: int):
+        self._require_state(TimerState.IDLE)
+        self.total_seconds = minutes * 60
+        self.remaining_seconds = self.total_seconds    
+
+    
     # ------------------------------------------------------------------
     # Countdown mechanism
     # ------------------------------------------------------------------

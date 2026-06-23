@@ -38,6 +38,28 @@
         # ── Buttons ─────────────────────────────────────────────────
         MDBoxLayout:
             orientation: "horizontal"
+            spacing: "12dp"
+            size_hint_y: None
+            height: "48dp"
+            opacity: 1 if root.state == "idle" else 0
+            disabled: root.state != "idle"
+
+            MDRaisedButton:
+                text: "20 min"
+                on_release: root.set_duration(20)
+                size_hint_x: 1
+
+            MDRaisedButton:
+                text: "25 min"
+                on_release: root.set_duration(25)
+                size_hint_x: 1
+
+            MDRaisedButton:
+                text: "45 min"
+                on_release: root.set_duration(45)
+                size_hint_x: 1
+        MDBoxLayout:
+            orientation: "horizontal"
             spacing: "16dp"
             size_hint_y: None
             height: "56dp"
