@@ -38,5 +38,25 @@ def initialise_db():
         )
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            completed INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS steps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            task_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            order_index INTEGER NOT NULL DEFAULT 0,
+            completed INTEGER NOT NULL DEFAULT 0,
+            FOREIGN KEY (task_id) REFERENCES tasks(id)
+        )
+    """)
+
     connection.commit()
     connection.close()
