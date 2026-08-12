@@ -1,17 +1,45 @@
-# microstep
+# 🧠 MicroStep — Core Task Scaffolding Engine
 
-A new Flutter project.
+> **Low-friction productivity and task scaffolding built specifically for the ADHD brain.**
 
-## Getting Started
+🎥 **Demo Video:** [Watch the MicroStep Foundational Track walkthrough on YouTube](#)
 
-This project is a starting point for a Flutter application.
+## 🎯 The Problem
+Standard productivity tools are built for neurotypical brains. They exacerbate executive dysfunction through visual clutter, rigid structures, and heavy backlogs, leading to task paralysis and decision fatigue.
 
-A few resources to get you started if this is your first Flutter project:
+## 💡 The Solution: MicroStep
+MicroStep is a cross-platform mobile application designed to accommodate executive dysfunction rather than punish it. It relies on the pedagogical concept of **scaffolding**—breaking overwhelming projects down into atomic micro-steps—paired with backlog shielding and immediate visual feedback to lower task activation energy.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## ✨ Core Features (Track 1 Scope)
+* **Scaffolded Task Manager:** Input a primary objective and immediately break it down into micro-steps to focus exclusively on the immediate next action.
+* **Backlog Shielding:** Isolates active micro-steps on the primary view, shielding users from seeing heavy task queues.
+* **Low-Friction Focus Timer:** A minimalist countdown timer requiring minimal taps to launch focus sessions directly tied to active micro-steps.
+* **Offline-First Storage:** Fast, local data persistence ensuring total privacy and instant access without internet dependencies.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack & Architecture
+* **Language:** Dart
+* **Framework:** Flutter
+* **Local Persistence:** `sqflite` / `shared_preferences`
+* **Architecture:** Modular Widget Architecture with state management separating UI components, local data services, and business logic.
+
+## 🚀 How to Run Locally
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/yourusername/microstep-flutter-core.git](https://github.com/yourusername/microstep-flutter-core.git)
+   cd microstep-flutter-core
+
+
+Install Flutter dependencies:
+
+Bash
+flutter pub get
+Run the application:
+
+Bash
+flutter run
+
+🎓 About This Project
+This project was developed as part of the submission criteria for the Mobile Development elective track selection at WeThinkCode (Cohort 2025).
+
+It fulfills Track 1 (Introductory Flutter & Dart Track) requirements, demonstrating core proficiency in Dart syntax, custom widget design, local state management, and offline database persistence.
