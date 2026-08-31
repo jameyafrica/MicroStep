@@ -1,0 +1,13 @@
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/microstep
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/NativeAssetsManifest.json
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/shaders/stretch_effect.frag
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/africa/Solo_Project/MicroStep/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
