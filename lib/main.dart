@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'features/tasks/presentation/providers/task_provider.dart';
 
 void main() {
-  runApp(const MicroStepApp());
+  runApp(
+    // ChangeNotifierProvider makes one TaskProvider instance available
+    // to every widget below it in the tree, via context.read<TaskProvider>()
+    // or context.watch<TaskProvider>(). "create:" runs once, the first
+    // time it's needed, and builds that single shared instance.
+    ChangeNotifierProvider(
+      create: (context) => TaskProvider(),
+      child: const MicroStepApp(),
+    ),
+  );
 }
 
 class MicroStepApp extends StatelessWidget {
