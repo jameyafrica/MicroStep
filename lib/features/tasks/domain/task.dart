@@ -8,7 +8,7 @@
 class Task {
   // 'final': set once, at creation, never reassigned — this is the
   // permanent identity of the Task, the same role taskId plays on MicroStep.
-  final int id;
+  final int? id;
 
   // mutable fields: a user can reasonably edit these after creating a Task.
   String title;         // short, scannable label, e.g. "Clean kitchen"
@@ -19,9 +19,9 @@ class Task {
   // for any of these (unlike MicroStep's isCompleted, which had a
   // meaningful default of 'false').
   Task({
-    required this.id,
+     this.id,
     required this.title,
     required this.description,
     required this.dueDate,
   });
-}
+}                 
