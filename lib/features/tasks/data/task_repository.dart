@@ -32,4 +32,31 @@ class TaskRepository {
 
     return id;
   }
+
+  // Looks up a single Task by its database id. Returns null if no row
+// with that id exists - e.g. it was deleted, or the id was never real.
+Future<Task?> getTaskById(int id) async {
+  final db = await DatabaseService.instance.database;
+
+  // query() returns a List<Map<String, dynamic>> - one Map per matching
+  // row - even though we expect at most one row back here, since id is
+  // the primary key and therefore guaranteed unique.
+  final results = await db.query(
+    'tasks',
+    // '?' is a placeholder, not the literal value - sqflite fills it in
+    // safely from whereArgs below. Never interpolate raw values directly
+    // into the where string; that's how SQL injection happens.
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+
+  // Empty list means no row matched this id at all.
+  if (results.isEmpty) {
+    return null;
+  }
+
+  // Exactly one match (id is the primary key, so it can't be more than
+  // one) - convert that single row back into a real Task object.
+  return Task.fromMap(results.first);
+}
 }
