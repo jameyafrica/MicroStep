@@ -25,6 +25,22 @@ class Task {
     required this.dueDate,
   });
 
+
+
+  // A named constructor - builds a Task directly from a raw database
+  // row (the Map<String, dynamic> shape sqflite's query() returns),
+  // the reverse operation of toMap(). ": id = ...," syntax is an
+  // initializer list - it runs BEFORE the constructor body, assigning
+  // each final field its value straight from the map.
+  Task.fromMap(Map<String, dynamic> map)
+      : id = map['id'] as int,
+        title = map['title'] as String,
+        description = map['description'] as String,
+        // Reverse of the toMap() conversion: the database stores
+        // dueDate as an int (milliseconds since epoch), so we rebuild
+        // a real DateTime from it using the matching constructor.
+        dueDate = DateTime.fromMillisecondsSinceEpoch(map['dueDate'] as int);
+
   // Converts this Task into the Map<String, dynamic> shape sqflite's
 // insert() and update() methods expect - basically, "this object as
 // a database row."
