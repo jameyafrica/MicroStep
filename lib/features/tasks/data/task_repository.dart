@@ -76,4 +76,29 @@ Future<Task?> getTaskById(int id) async {
     // into the concrete List<Task> this method promises to return.
     return results.map((map) => Task.fromMap(map)).toList();
   }
+
+    // Updates an existing row in the "tasks" table to match this Task's
+  // current field values. Unlike insertTask, this expects the Task to
+  // already have a real id - it can't create a new row, only modify one
+  // that's already there.
+  Future<void> updateTask(Task task) async {
+    // Guard: a null id means this Task was never saved, so there's no
+    // existing row to update. assert() only runs in debug/dev builds -
+    // it crashes immediately with this message if the condition is
+    // false, catching the mistake right where it happened instead of
+    // letting a null quietly reach whereArgs below.
+    assert(task.id != null, 'updateTask() requires a Task with a non-null id');
+
+    final db = await DatabaseService.instance.database;
+
+    await db.update(
+      'tasks',
+      // toMap() already includes 'id' whenever task.id is non-null
+      // (see the toMap() logic in Task) - same conversion insertTask
+      // and every other method use, just going to an existing row here.
+      task.toMap(),
+      where: 'id = ?',
+      whereArgs: [task.id],
+    );
+  }
 }
