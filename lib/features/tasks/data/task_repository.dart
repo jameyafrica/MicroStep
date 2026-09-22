@@ -59,4 +59,21 @@ Future<Task?> getTaskById(int id) async {
   // one) - convert that single row back into a real Task object.
   return Task.fromMap(results.first);
 }
+
+  // Fetches every row in the "tasks" table and converts each one back
+  // into a Task object. Returns an empty list (not null) if the table
+  // has no rows - "no tasks yet" is a normal, valid state, not an error.
+  Future<List<Task>> getAllTasks() async {
+    final db = await DatabaseService.instance.database;
+
+    // No where/whereArgs this time - with nothing to filter on,
+    // db.query() with just the table name returns every row as-is.
+    final results = await db.query('tasks');
+
+    // results is a List<Map<String, dynamic>> - one Map per row.
+    // .map() runs Task.fromMap() over every single map in that list,
+    // producing an Iterable<Task>; .toList() then turns that Iterable
+    // into the concrete List<Task> this method promises to return.
+    return results.map((map) => Task.fromMap(map)).toList();
+  }
 }
