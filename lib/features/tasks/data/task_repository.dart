@@ -101,4 +101,16 @@ Future<Task?> getTaskById(int id) async {
       whereArgs: [task.id],
     );
   }
+
+    // Deletes the row with this id from the "tasks" table. If no row
+  // with that id exists, this simply does nothing - not an error.
+  Future<void> deleteTask(int id) async {
+    final db = await DatabaseService.instance.database;
+
+    await db.delete(
+      'tasks',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }
