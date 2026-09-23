@@ -37,6 +37,37 @@ class DatabaseService {
             dueDate INTEGER
           )
         ''');
+
+        // Runs a second raw SQL statement to build the microsteps table,
+        // created in the same onCreate call so both tables exist together
+        // from the very first app launch on a fresh install.
+        // INTEGER PRIMARY KEY - matches MicroStep.id (to be added next),
+        // same auto-managed uniqueness as tasks.id.
+        // TEXT - matches description (Dart String).
+        // taskId INTEGER - the foreign key linking a MicroStep back to
+        // the Task it belongs to; matches MicroStep.taskId (Dart int).
+        // No FOREIGN KEY constraint declared here - sqflite/SQLite would
+        // support it, but enforcing it isn't required by the acceptance
+        // criteria for Issue #9, so it's left out rather than added
+        // speculatively.
+        // dueDate INTEGER - same milliseconds-since-epoch pattern as
+        // tasks.dueDate, for the same reason (no native DateTime type).
+        // estimatedDuration INTEGER - matches MicroStep.estimatedDuration
+        // (Dart int, minutes).
+        // isCompleted INTEGER - SQLite has no native boolean type, so
+        // this stores 0 (false) or 1 (true), matching MicroStep.isCompleted
+        // (Dart bool). This mirrors the same workaround dueDate already
+        // uses for DateTime.
+        await db.execute('''
+          CREATE TABLE microsteps(
+            id INTEGER PRIMARY KEY,
+            description TEXT,
+            taskId INTEGER,
+            dueDate INTEGER,
+            estimatedDuration INTEGER,
+            isCompleted INTEGER
+          )
+        ''');
       },
     );
     return _database!;
