@@ -1,26 +1,41 @@
-// lib/features/tasks/domain/micro_step.dart
-
-// Pure Dart only — no Flutter imports here. This class must be usable and
-// testable without ever touching the UI framework.
-
 class MicroStep {
-  
-  final String description;   // what the step actually is, e.g. "put dishes in sink"
-  final int taskId;           // the Task this MicroStep belongs to (a reference, not a copy)
+  final int? id;
+  final String description;
+  final int taskId;
+  DateTime dueDate;
+  int estimatedDuration; // minutes
+  bool isCompleted;
 
-  
-  DateTime dueDate;           // when this step should be done by
-  int estimatedDuration;      // how long the step is expected to take, in minutes
-  bool isCompleted;           // whether the user has finished this step
-
-  // Constructor: this is how a MicroStep object gets created.
-  // 'required' means the caller MUST supply a value for that field 
-  // Dart won't let you forget one and accidentally create a broken object.
   MicroStep({
+    this.id,
     required this.description,
     required this.taskId,
     required this.dueDate,
     required this.estimatedDuration,
-    this.isCompleted = false, // default value: a new step starts NOT completed
+    this.isCompleted = false,
   });
+
+  // Same pattern as Task.fromMap() - reconstructs a MicroStep from a
+  // database row. id is non-nullable here because a row read back from
+  // SQLite always has a real assigned id.
+  MicroStep.fromMap(Map<String, dynamic> map)
+      : id = map['id'] as int,
+        description = map['description'] as String,
+        taskId = map['taskId'] as int,
+        dueDate = DateTime.fromMillisecondsSinceEpoch(map['dueDate'] as int),
+        estimatedDuration = map['estimatedDuration'] as int,
+        // SQLite has no bool type - 1 means true, anything else false.
+        isCompleted = (map['isCompleted'] as int) == 1;
+
+  Map<String, dynamic> toMap() {
+    return {
+      // Omit id when null so a fresh insert lets SQLite auto-assign one.
+      if (id != null) 'id': id,
+      'description': description,
+      'taskId': taskId,
+      'dueDate': dueDate.millisecondsSinceEpoch,
+      'estimatedDuration': estimatedDuration,
+      'isCompleted': isCompleted ? 1 : 0,
+    };
+  }
 }
