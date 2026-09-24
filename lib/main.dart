@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/tasks/presentation/providers/task_provider.dart';
-
+import 'features/tasks/presentation/providers/micro_step_provider.dart';
 void main() {
   runApp(
-    // ChangeNotifierProvider makes one TaskProvider instance available
-    // to every widget below it in the tree, via context.read<TaskProvider>()
-    // or context.watch<TaskProvider>(). "create:" runs once, the first
-    // time it's needed, and builds that single shared instance.
-    ChangeNotifierProvider(
-      create: (context) => TaskProvider(),
+    // MultiProvider hosts multiple ChangeNotifiers at once - needed now
+    // that MicroStepProvider joins TaskProvider as shared app state.
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TaskProvider()),
+        ChangeNotifierProvider(create: (context) => MicroStepProvider()),
+      ],
       child: const MicroStepApp(),
     ),
   );
