@@ -24,9 +24,6 @@ class MicroStepRepository {
     return MicroStep.fromMap(results.first);
   }
 
-  // The acceptance-criteria-mandated lookup: every MicroStep belonging
-  // to one Task. Filters on the taskId foreign key column rather than
-  // the primary key, so it can return zero, one, or many rows.
   Future<List<MicroStep>> getMicroStepsByTaskId(int taskId) async {
     final db = await DatabaseService.instance.database;
 
@@ -37,5 +34,28 @@ class MicroStepRepository {
     );
 
     return results.map((map) => MicroStep.fromMap(map)).toList();
+  }
+
+  Future<void> updateMicroStep(MicroStep step) async {
+    assert(step.id != null, 'updateMicroStep() requires a non-null id');
+
+    final db = await DatabaseService.instance.database;
+
+    await db.update(
+      'microsteps',
+      step.toMap(),
+      where: 'id = ?',
+      whereArgs: [step.id],
+    );
+  }
+
+  Future<void> deleteMicroStep(int id) async {
+    final db = await DatabaseService.instance.database;
+
+    await db.delete(
+      'microsteps',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }
