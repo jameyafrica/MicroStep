@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/tasks/presentation/providers/task_provider.dart';
 import 'features/tasks/presentation/providers/micro_step_provider.dart';
+import 'features/backlog/presentation/providers/backlog_provider.dart';
 void main() {
   runApp(
     // MultiProvider hosts multiple ChangeNotifiers at once - needed now
