@@ -6,21 +6,11 @@ class TaskProvider extends ChangeNotifier {
   final List<Task> _tasks = [];
   List<Task> get tasks => List.unmodifiable(_tasks);
 
-  // The one way this provider talks to the database - it never touches
-  // sqflite or DatabaseService directly, only through this repository.
   final TaskRepository _repository = TaskRepository();
 
-  // Now async - callers CAN await it (e.g. to know when it's truly
-  // done), but there's nothing meaningful to hand back, hence Future<void>.
   Future<void> addTask(Task task) async {
-    // Step 1: write to disk first, and actually wait for it to finish -
-    // per ADR-0002, the UI must never show "saved" before it's real.
     final id = await _repository.insertTask(task);
 
-    // Step 2: task.id was null (this Task was never saved before).
-    // Task.id is final, so we can't just mutate it - we build a new
-    // Task that's identical except it now carries the real id the
-    // database just assigned.
     final savedTask = Task(
       id: id,
       title: task.title,
@@ -28,11 +18,37 @@ class TaskProvider extends ChangeNotifier {
       dueDate: task.dueDate,
     );
 
-    // Step 3: only now update in-memory state, with the correctly-id'd
-    // object, not the original null-id one.
     _tasks.add(savedTask);
+    notifyListeners();
+  }
 
-    // Step 4: only now tell listeners something changed.
+  // Pulls every task from the database into memory. Called once when
+  // the app starts (or a screen needs a full refresh) since _tasks
+  // starts empty on every app launch - unlike the database, in-memory
+  // state doesn't persist between runs.
+  Future<void> loadTasks() async {
+    final loaded = await _repository.getAllTasks();
+    _tasks
+      ..clear()
+      ..addAll(loaded);
+    notifyListeners();
+  }
+
+  Future<void> updateTask(Task task) async {
+    await _repository.updateTask(task);
+
+    // Find the matching in-memory task by id and replace it, so the UI
+    // reflects the change without needing a full reload from disk.
+    final index = _tasks.indexWhere((t) => t.id == task.id);
+    if (index != -1) {
+      _tasks[index] = task;
+      notifyListeners();
+    }
+  }
+
+  Future<void> removeTask(int id) async {
+    await _repository.deleteTask(id);
+    _tasks.removeWhere((t) => t.id == id);
     notifyListeners();
   }
 }
