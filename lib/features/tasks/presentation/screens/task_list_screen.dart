@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/task_provider.dart';
+import 'add_task_screen.dart';
+import 'task_detail_screen.dart';
 
 class TaskListScreen extends StatefulWidget {
   const TaskListScreen({super.key});
@@ -13,10 +15,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
   @override
   void initState() {
     super.initState();
-    // Tasks live in the database, not in memory, until loaded - this
-    // triggers that load once when the screen first mounts.
-    // addPostFrameCallback avoids calling notifyListeners() during
-    // the initial build, which Flutter disallows.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TaskProvider>().loadTasks();
     });
@@ -24,8 +22,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // watch() rebuilds this widget whenever TaskProvider calls
-    // notifyListeners() - e.g. after loadTasks() or addTask() completes.
     final tasks = context.watch<TaskProvider>().tasks;
 
     return Scaffold(
@@ -39,9 +35,24 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 return ListTile(
                   title: Text(task.title),
                   subtitle: Text(task.description),
+                  // Navigates to the detail screen, passing the specific
+                  // Task so it knows which task's micro-steps to load.
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TaskDetailScreen(task: task),
+                    ),
+                  ),
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AddTaskScreen()),
+        ),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
