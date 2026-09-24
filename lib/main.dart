@@ -10,6 +10,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => TaskProvider()),
         ChangeNotifierProvider(create: (context) => MicroStepProvider()),
+        ChangeNotifierProvider(create: (context) => BacklogProvider()),
       ],
       child: const MicroStepApp(),
     ),
