@@ -26,8 +26,8 @@ MicroStep is a cross-platform mobile application designed to accommodate executi
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/yourusername/microstep-flutter-core.git](https://github.com/yourusername/microstep-flutter-core.git)
-   cd microstep-flutter-core
+  git clone https://github.com/jameyafrica/MicroStep.git
+cd MicroStep
 
 
 Install Flutter dependencies:
@@ -43,3 +43,7 @@ flutter run
 This project was developed as part of the submission criteria for the Mobile Development elective track selection at WeThinkCode (Cohort 2025).
 
 It fulfills Track 1 (Introductory Flutter & Dart Track) requirements, demonstrating core proficiency in Dart syntax, custom widget design, local state management, and offline database persistence.
+
+
+Verification code:
+WTC-5HU4HYPC
